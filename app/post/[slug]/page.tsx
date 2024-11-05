@@ -3,9 +3,25 @@ import path from "path";
 import matter from "gray-matter";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { YouTubeEmbed } from "@next/third-parties/google";
-import { getPages } from "@/lib/utils";
 
 
+// Content for these pages will be fetched with getPost function.
+// This function is called at build time.
+// It returns the content of the post with the matching slug.
+// It also returns the slug itself, which Next.js will use to determine which page to render at build time.
+//For example, { props: { slug: "my-first-post", content: "..." } }
+async function getPost({ slug }: { slug: string }) {
+  const markdownFile = fs.readFileSync(
+    path.join("content", slug + ".mdx"),
+    "utf-8"
+  );
+  const { data: frontMatter, content } = matter(markdownFile);
+  return {
+    frontMatter,
+    slug,
+    content,
+  };
+}
 
 // generateStaticParams generates static paths for blog posts.
 // This function is called at build time.
@@ -24,7 +40,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   // Params contains the post `slug`
 
   // Fetch the post content based on the slug
-  const props = await getPages(params);
+  const props = await getPost(params);
 
   // Customize components for MDX rendering.
   // For example, the Code component will render code blocks with syntax highlighting.

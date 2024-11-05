@@ -26,7 +26,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 {/* Center Bar */}
                 <nav className="ml-auto text-sm font-medium space-x-6">
                   <Link href="/pages">Pages</Link>
-                  <Link href="/series">Series</Link>
                   <Link href="/posts">Posts</Link>
                   <Link href="/about">About</Link>
                 </nav>
