@@ -29,14 +29,14 @@ export const PROJECTS_PATHS = fs.readdirSync(CONTENT_PROJECTS_DIR, {recursive: t
 // Markdown
 export async function getMarkdown(dir: string, slug: string) {
   if(!slug.endsWith(".mdx")){
-    slug + ".mdx"
+    slug += ".mdx"
   }
 
   const markdownFile = fs.readFileSync(
     path.join(dir, slug),
-    //path.join(dir, slug),
     "utf-8"
   );
+  
   const { data: frontMatter, content } = matter(markdownFile);
   return {
     frontMatter,
